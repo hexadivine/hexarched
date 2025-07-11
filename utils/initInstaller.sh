@@ -3,6 +3,7 @@
 source ./functions/formatDisk.sh
 source ./functions/chrootInstallation.sh
 source ./functions/pacstrapInstall.sh
+source ./functions/installDesktopEnv.sh
 
 source ./utils/status.sh
 
@@ -15,12 +16,15 @@ function initInstaller() {
     status "20"  "Installing required packages..."
     pacstrapInstall 
 
-    status "90" "Generating fstab file..."
+    status "71" "Generating fstab file..."
     genfstab -U /mnt >> /mnt/etc/fstab &>/dev/null
     
-    status "95" "Performing final chroot installation...."
+    status "75" "Performing chroot installation...."
     chrootInstallation &>/dev/null
     
-    status "100" "Done...."
+    status "90" "Installing selected desktop environment...."
+    installDesktopEnv &>/dev/null
 
+    status "100" "Done!!!"
+    sleep 2
 }
